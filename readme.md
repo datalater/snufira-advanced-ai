@@ -7,7 +7,96 @@
 
 ---
 
+## 20170905
 
+### p.60
+
++ **문제상황** : 2개의 데이터를 구분(classfication)하려고 한다.
++ 각 데이터에는 여러 개의 feature가 있다.
++ 데이터의 개수 N이 많을 때는 데이터를 구분하기 위한 feature로 correlation이 높은 feature 1과 feature 2를 뽑는 게 유리하다.
+  + classification을 하려면 두 데이터의 분포가 어느 정도 달라야 한다.
+  + 두 데이터가 양의 상관관계 또는 음의 상관관계로 움직이면 자연스럽게 분포가 달라진다.
+  + 따라서 feature 1과 feature 2가 상관관계가 있다면 두 데이터가 양 또는 음의 상관관계로 움직여서 구분하기 쉬워진다.
++ 데이터가 개수 N이 적을 때 feature를 여러 개 사용해서 모델을 만들면, feature 수 만큼 모델의 차원이 높아지고, 모델의 차원이 높아질 때마다 필요한 데이터의 개수가 exp하게 증가한다.
+  + 모델의 복잡도가 증가하면 그만큼 데이터가 엄청나게 많이 필요한데 충분히 많은 데이터를 구하는 것은 거의 불가능하다. 이를 차원의 저주라고 한다.
+
+### 오늘 한 내용 짧은 요약
+
++ **문제 상황** : 데이터의 개수 N이 적고, feature가 여러 개 있다. feature를 모두 사용하면 모델의 complexity가 너무 많이 증가한다. complexity가 너무 많이 증가하면 overfitting에 걸리게 된다. 어떻게 해결할 수 있을까?
++ graphical model을 쓴다.
++ graphical model의 node는 feature를 의미한다.
++ 노드 간의 independence를 가정하면 parameter 수를 줄일 수 있다.
++ parameter 수가 줄어들면 모델의 complexity를 줄일 수 있다.
+
+---
+
+### not yet organized
+
++ graphical model을 쓴 이유 p.117
++ 데이터의 개수 N이 적을 때
++ node : feature
++ 노드들 간의 independence를 확보해서 parameter 수를 줄일 수 있다.
++ 왜 이렇게 하냐면 데이터가 적을 때 overfitting 되지 않도록, 모델의 complexity를 줄이기 위해서이다.
+
+---
+
+### p.110
+
++ true density function의 risk를 알 수 없다.
++ 우리가 갖고 있는 n개의 데이터로 risk를 구해서 true의 risk를 추정한다.
+  + n이 커질 때 전체의 bound가 작아진다.
+  + h가 커질 때 전체 bound가 커진다.
++ 모델의 복잡도가 증가하면 R(g) - Rn(g) 의 차이가 커지고 그만큼 overfitting 될 수 있다는 것
+
+> **Question:** bound가 뭐지? R(g)-Rn(g)의 차이인가? A. upper bound.
+> **Question:** linear classifier 아래 줄에 나온 내용의 의미? A. VC-dimension 어떤 모델이 표현할 수 있는 complexity를 뜻한다. 어떤 모델이 다양한 경계를 그릴 수 있는 정도를 VC-dimension이라고 한다. linear classifier는 다차원 평면을 만드는 것. feature의 차원에다가 bias를 더해주므로 차원이 1개 더 증가한다.
+
+### p.112
+
++ mu에 대한 parameter는 D차원 (D=data의 개수)
++ 공분산에 대한 parameter는 {D(D+1)/2} 차원
+  + diagonal은 분산이므로 분산을 제외하면 {D(D-1)/2} 차원
+
+### p.113~114
+
++ N 을 높이면 true parameter를 맞힐 확률이 높아진다.
++ 가우시안 모델이 parameter가 워낙 많기 때문에 추정한 parameter 중 outlier가 나올 수 밖에 없다.
++ 가우시안 모델에서 feature가 D차원이면 평균에 대한 parameter는 D개, 공분산행렬에 대한 parameter는 (D(D+1)/2)개이다.
++ 즉 공분산행렬이 parameter 수가 많으므로 여기서 outlier가 꼭 한번씩쯤은 나오게 된다.
++ 
+
+### 가우시안
+
++ true data의 분포를 알기 위해 sample data로 예측한다.
++ true data를 가우시안 분포로 가정한다.
++ P(x)는 확률이다. P(x)의 값을 가장 높게 만들 수 있는 것이 가우스 분포에서는 mu와 sigma뿐이다.
++ 가우시안의 parameter가 평균과 시그마(공분산행렬)이므로 true data의 분포를 예측하려면 평균과 시그마를 구해야 한다.
+
+---
+
+
++ 오전 설명 맥락
+  + 데이터가 한정 -> parameter 적은 모델
+
+---
+
+
+## For test 자료 조사
+
+### 공분산 행렬
+
++ 정의
+  + 공분산 행렬은 2변량 이상의 변량이 있는 경우에 여러 개의 두 변량 값들 간의 공분산을 행렬로 표현한 것으로 정의하고 있다.
++ 의미
+  + 공분산 벡터 내의 원소들은 차원의 특징벡터 두 개의 내적으로 구성되어 있다. 내적은 벡터의 닮음의 척도이므로 공분산 행렬은 개의 차원 벡터들이 얼마나 닮았는지를 표현해주고 있는 것이다. 또, 그림 7에서 표현해주고 있듯이 내부의 공분산들은 변량들이 얼마나 함께 변하는지에 대해 말해주고 있다.
+
+
+### variance
+
+확률변수가 기댓값으로부터 얼마나 떨어진 곳에 분포하는지를 가늠하는 숫자이다. 기댓값은 확률변수의 위치를 나타내고 분산은 그것이 얼마나 넓게 퍼져 있는지를 나타낸다.
+
+
+---
 ---
 
 ## Summary
@@ -104,7 +193,7 @@
 
 ## Quiz1. 20170814
 
-### 
+###
 
 
 ---
